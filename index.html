@@ -1,0 +1,524 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <link rel="icon" type="image/png" sizes="32x32" href="images/icon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/icon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/icon-180.png">
+  <title>Steering System Demo</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css" />
+
+  <noscript>
+    <link rel="stylesheet" href="assets/css/noscript.css" />
+  </noscript>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M9CVEWYBHS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-M9CVEWYBHS', { anonymize_ip: true });
+  </script>
+</head>
+
+<body class="is-preload">
+  <div id="page-wrapper">
+
+    <header id="header">
+      <h1 id="logo"><a href="#">Steering System Demo</a></h1>
+      <nav id="nav">
+        <ul>
+          <li>pa.borysiuk@gmail.com</li>
+        </ul>
+      </nav>
+    </header>
+
+    <div id="main" class="wrapper style1">
+      <div class="container">
+        <header class="major">
+          <h2>Discover the Power of AWS & Crab Walk</h2>
+          <!-- <p>This page is an example of how we can join interactive product demonstration </p> -->
+        </header>
+
+        <div class="col-12-medium">
+          <section id="content">
+            <!-- <a href="#" class="image"><img src="images/pic03.png" alt="" /></a> -->
+            <p>
+              Modern trucks with All Wheel Steering and Crab Walk Steering modes can perform maneuvers impossible for
+              conventional
+              vehicles. An interactive
+              demo lets customers personally experience these capabilities through gameplay instead of simply watching
+              a video.
+            </p>
+
+            <div id="game-start-panel">
+              <button id="start-game-btn" class="button primary" type="button">
+                Launch 🎮
+              </button>
+            </div>
+
+
+            <div id="unity-container">
+              <div id="loading-cover">Loading: 0%</div>
+              <canvas id="unity-canvas" tabindex="0"></canvas>
+              <button id="desktop-close-game-btn" type="button">×</button>
+            </div>
+
+            <h3>Interactive approach:</h3>
+            <ul>
+              <li>Make advanced truck technologies easier to sell and explain.</li>
+              <li>Let customers feel large vehicle maneuverability firsthand.</li>
+              <li>Increase customer engagement through gamified experience</li>
+              <li>Create a high-tech brand image.</li>
+              <li>Demonstrate capabilities impossible to experience through video or text alone.</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer id="footer" style="background:#1e1f25;">
+
+    <ul class="credits">
+      <li><a href="https://www.linkedin.com/in/pawel-borysiuk/">LinkedIn</a></li>
+      <li>pa.borysiuk@gmail.com</li>
+    </ul>
+
+    <ul class="copyright">
+      <li>&copy; Untitled. All rights reserved.</li>
+      <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+    </ul>
+  </footer>
+  </div>
+
+  <div id="rotate-warning">
+    <div>
+      <strong>Rotate your phone</strong>
+      <p>Please turn your device to landscape mode to play.</p>
+    </div>
+  </div>
+
+
+  <style>
+    body.game-started::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    body.game-started #unity-container {
+      z-index: 1001;
+    }
+
+    #desktop-close-game-btn {
+      display: none;
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 2px solid #515863;
+      background: #454e5f;
+      color: #FFFFFFBF;
+      font-size: 32px;
+      line-height: 1;
+      z-index: 10;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #header,
+    #start-game-btn,
+    #titleBar .toggle:before {
+      background: #272833 !important;
+    }
+
+    a {
+      color: #FFFFFFBF !important;
+    }
+
+    body,
+    header.major:after {
+      background: #23242a;
+    }
+
+    #content {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    #game-start-panel {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      margin: 2em 0;
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
+
+    #unity-container {
+      display: none;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #111;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      margin: 2em 0;
+    }
+
+    #unity-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: #231F20;
+      object-fit: contain;
+    }
+
+    #loading-cover {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: sans-serif;
+      font-size: 18px;
+      z-index: 2;
+    }
+
+    #rotate-warning {
+      position: fixed;
+      inset: 0;
+      background: #111;
+      color: white;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      z-index: 20000;
+      font-family: sans-serif;
+      padding: 30px;
+    }
+
+    #rotate-warning strong {
+      font-size: 28px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    #rotate-warning p {
+      font-size: 16px;
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      #start-game-btn {
+        padding-left: 1.5em !important;
+        padding-right: 1.5em !important;
+      }
+
+      body.game-started::before,
+      #desktop-close-game-btn {
+        display: none !important;
+      }
+
+      body.game-started {
+        overflow: hidden;
+      }
+
+      body.game-started #unity-container {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        aspect-ratio: auto !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        z-index: 15000 !important;
+        background: #000;
+        margin: 0 !important;
+      }
+
+      body.game-started #unity-canvas {
+        width: 100vw !important;
+        height: 100vh !important;
+      }
+
+
+    }
+
+    @media (max-width: 768px) and (orientation: portrait) {
+      body.game-started #rotate-warning {
+        display: flex;
+      }
+
+      body.game-started #unity-container {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 768px) and (orientation: landscape) {
+      body.game-started #rotate-warning {
+        display: none !important;
+      }
+
+      body.game-started #unity-container {
+        display: block !important;
+      }
+    }
+  </style>
+
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/jquery.scrolly.min.js"></script>
+  <script src="assets/js/jquery.dropotron.min.js"></script>
+  <script src="assets/js/jquery.scrollex.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <script src="Build/docs.loader.js"></script>
+
+  <script>
+    const desktopCloseGameBtn = document.getElementById("desktop-close-game-btn");
+    const gameStartPanel = document.getElementById("game-start-panel");
+    const btn = document.getElementById("start-game-btn");
+    const startGameBtn = document.getElementById("start-game-btn");
+    const unityContainer = document.getElementById("unity-container");
+    const loadingCover = document.getElementById("loading-cover");
+    const rotateWarning = document.getElementById("rotate-warning");
+    const gameStatus = document.getElementById("game-status");
+    const unityCanvas = document.getElementById("unity-canvas");
+
+    let hue = 0;
+    let pulsing = true;
+    let unityInstance = null;
+    let gameHistoryPushed = false;
+
+    function isMobileDevice() {
+      return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    }
+
+    // function animateButton() {
+
+    //   const scale = 1 + 0.15 * Math.sin(Date.now() / 200);
+    //   btn.style.transform = `scale(${scale})`;
+
+    //   requestAnimationFrame(animateButton);
+    // }
+
+    // animateButton();
+
+    async function enterMobileLandscapeFullscreen() {
+      document.body.classList.add("game-started");
+
+      unityContainer.style.display = "block";
+
+      try {
+        if (unityContainer.requestFullscreen) {
+          await unityContainer.requestFullscreen();
+        } else if (unityContainer.webkitRequestFullscreen) {
+          await unityContainer.webkitRequestFullscreen();
+        }
+      } catch (e) { }
+
+      try {
+        if (screen.orientation && screen.orientation.lock) {
+          await screen.orientation.lock("landscape");
+        }
+      } catch (e) { }
+    }
+
+    function showDesktopGame() {
+      document.body.classList.add("game-started");
+
+      unityContainer.style.display = "block";
+
+      unityContainer.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+      setTimeout(() => {
+        desktopCloseGameBtn.style.display = "flex";
+      }, 350);;
+    }
+
+    window.closeGame = async function () {
+      document.body.classList.remove("game-started");
+
+      unityContainer.style.display = "none";
+      rotateWarning.style.display = "none";
+      gameStartPanel.style.display = "flex";
+
+      try {
+        if (document.fullscreenElement) {
+          await document.exitFullscreen();
+        } else if (document.webkitFullscreenElement && document.webkitExitFullscreen) {
+          await document.webkitExitFullscreen();
+        }
+      } catch (e) { }
+
+      try {
+        if (screen.orientation && screen.orientation.unlock) {
+          screen.orientation.unlock();
+        }
+      } catch (e) { }
+
+      gameHistoryPushed = false;
+      history.replaceState(null, "", location.href);
+
+      btn.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+      desktopCloseGameBtn.style.display = "none";
+      // document.body.classList.remove("game-started");
+    };
+
+    window.addEventListener("popstate", async () => {
+      if (document.body.classList.contains("game-started")) {
+        await window.closeGame();
+      }
+    });
+
+    window.addEventListener("orientationchange", () => {
+      setTimeout(() => {
+        if (document.body.classList.contains("game-started") && isMobileDevice()) {
+          unityContainer.style.display = "block";
+        }
+      }, 300);
+    });
+
+    startGameBtn.addEventListener("click", async () => {
+      gtag("event", "startGameBtn", { event_category: "engagement" });
+
+      if (!gameHistoryPushed) {
+        history.pushState({ gameOpen: true }, "", location.href);
+        gameHistoryPushed = true;
+      }
+
+      pulsing = false;
+      // btn.style.display = "none";
+      gameStartPanel.style.display = "none";
+
+
+      if (isMobileDevice()) {
+        await enterMobileLandscapeFullscreen();
+      } else {
+        showDesktopGame();
+      }
+      // document.body.classList.add("game-started");
+      initUnityGame();
+
+      setTimeout(() => {
+        unityCanvas.focus();
+      }, 300);
+    });
+
+    desktopCloseGameBtn.addEventListener("click", window.closeGame);
+
+
+    function initUnityGame() {
+      if (window.unityInitialized) return;
+
+      gtag("event", "unityCanvasInitStarted", { event_category: "engagement" });
+      window.unityInitialized = true;
+
+      const isMobile = isMobileDevice();
+      let pixelRatio;
+
+      if (isMobile) {
+        gtag("event", "mobileDeviceDetected", { event_category: "engagement" });
+        pixelRatio = Math.min(window.devicePixelRatio || 2, 3);
+      } else {
+        gtag("event", "desktopDeviceDetected", { event_category: "engagement" });
+        pixelRatio = Math.max(window.devicePixelRatio || 3, 3);
+      }
+
+      createUnityInstance(document.querySelector("#unity-canvas"), {
+        dataUrl: "Build/docs.data",
+        frameworkUrl: "Build/docs.framework.js",
+        codeUrl: "Build/docs.wasm",
+        streamingAssetsUrl: "StreamingAssets",
+        companyName: "DefaultCompany",
+        productName: "MVPPlatformer3D",
+        productVersion: "0.1.0",
+        webglContextAttributes: { preserveDrawingBuffer: true },
+        matchWebGLToCanvasSize: true,
+        devicePixelRatio: pixelRatio
+      }, (progress) => {
+        loadingCover.innerText = `Loading: ${Math.round(progress * 100)}%`;
+      }).then((instance) => {
+        unityInstance = instance;
+
+        setTimeout(() => {
+          if (loadingCover) {
+            loadingCover.style.display = "none";
+          }
+        }, 1000);
+
+        gtag("event", "unityCanvasLoaded", { event_category: "engagement" });
+
+        unityCanvas.addEventListener("click", () => {
+          unityCanvas.focus();
+          gtag("event", "userCanvasClick", { event_category: "engagement" });
+        });
+
+        document.addEventListener("keydown", e => {
+          if (e.code === "KeyA" || e.code === "KeyD") {
+            gtag("event", "userKeyPress", {
+              event_category: "engagement",
+              event_label: e.code
+            });
+          }
+        });
+      }).catch((message) => {
+        gtag("event", "unityCanvasLoadError", {
+          event_category: "error",
+          event_label: message
+        });
+
+        loadingCover.innerText = "Error downloading: " + message;
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll("a[href]").forEach(link => {
+        link.addEventListener("click", () => {
+          if (!link.href.includes(location.hostname)) {
+            gtag("event", "outbound_click", {
+              event_category: "outbound",
+              event_label: link.href
+            });
+          }
+        });
+      });
+    });
+
+    function onFullscreenExit() {
+      if (document.body.classList.contains("game-started") && isMobileDevice() && !document.fullscreenElement) {
+        window.closeGame();
+      }
+    }
+
+    document.addEventListener("fullscreenchange", onFullscreenExit);
+    document.addEventListener("webkitfullscreenchange", onFullscreenExit);
+  </script>
+</body>
+
+</html>
