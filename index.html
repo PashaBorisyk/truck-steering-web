@@ -48,9 +48,9 @@
               gameplay instead of simply watching a video.
             </p>
 
-            <div id="game-start-panel">
+            <div id="game-start-panel" style="background-image: url('images/blurred-image.png');">
               <button id="start-game-btn" class="button primary" type="button">
-                Launch Game
+                Launch 🎮
               </button>
             </div>
 
@@ -484,7 +484,7 @@
           event_label: message
         });
 
-        gameElements.loadingCover.innerText = "Error downloading: " + message;
+        console.log(message);
       });
     }
 
