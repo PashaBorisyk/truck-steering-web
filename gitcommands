@@ -1,2 +1,2 @@
-git subtree push --prefix=folder1 inner-remote main --force
+git subtree push --prefix=docs hosting main --force
 git push hosting subtree-docs:main --force-with-lease
