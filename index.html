@@ -18,14 +18,13 @@
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-M9CVEWYBHS', { anonymize_ip: true });
+    gtag("js", new Date());
+    gtag("config", "G-M9CVEWYBHS", { anonymize_ip: true });
   </script>
 </head>
 
 <body class="is-preload">
   <div id="page-wrapper">
-
     <header id="header">
       <h1 id="logo"><a href="#">Steering System Demo</a></h1>
       <nav id="nav">
@@ -38,39 +37,34 @@
     <div id="main" class="wrapper style1">
       <div class="container">
         <header class="major">
-          <h2>Discover the Power of AWS & Crab Walk</h2>
-          <!-- <p>This page is an example of how we can join interactive product demonstration </p> -->
+          <h2>Discover the Power of AWS &amp; Crab Walk</h2>
         </header>
 
         <div class="col-12-medium">
           <section id="content">
-            <!-- <a href="#" class="image"><img src="images/pic03.png" alt="" /></a> -->
             <p>
               Modern trucks with All Wheel Steering and Crab Walk Steering modes can perform maneuvers impossible for
-              conventional
-              vehicles. An interactive
-              demo lets customers personally experience these capabilities through gameplay instead of simply watching
-              a video.
+              conventional vehicles. An interactive demo lets customers personally experience these capabilities through
+              gameplay instead of simply watching a video.
             </p>
 
             <div id="game-start-panel">
               <button id="start-game-btn" class="button primary" type="button">
-                Launch 🎮
+                Launch Game
               </button>
             </div>
-
 
             <div id="unity-container">
               <div id="loading-cover">Loading: 0%</div>
               <canvas id="unity-canvas" tabindex="0"></canvas>
-              <button id="desktop-close-game-btn" type="button">×</button>
+              <button id="desktop-close-game-btn" type="button" aria-label="Close game">&times;</button>
             </div>
 
             <h3>Interactive approach:</h3>
             <ul>
               <li>Make advanced truck technologies easier to sell and explain.</li>
               <li>Let customers feel large vehicle maneuverability firsthand.</li>
-              <li>Increase customer engagement through gamified experience</li>
+              <li>Increase customer engagement through gamified experience.</li>
               <li>Create a high-tech brand image.</li>
               <li>Demonstrate capabilities impossible to experience through video or text alone.</li>
             </ul>
@@ -78,19 +72,17 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <footer id="footer" style="background:#1e1f25;">
+    <footer id="footer" style="background:#1e1f25;">
+      <ul class="credits">
+        <li><a href="https://www.linkedin.com/in/pawel-borysiuk/">LinkedIn</a></li>
+        <li>pa.borysiuk@gmail.com</li>
+      </ul>
 
-    <ul class="credits">
-      <li><a href="https://www.linkedin.com/in/pawel-borysiuk/">LinkedIn</a></li>
-      <li>pa.borysiuk@gmail.com</li>
-    </ul>
-
-    <ul class="copyright">
-      <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-    </ul>
-  </footer>
+      <ul class="copyright">
+        <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+      </ul>
+    </footer>
   </div>
 
   <div id="rotate-warning">
@@ -99,7 +91,6 @@
       <p>Please turn your device to landscape mode to play.</p>
     </div>
   </div>
-
 
   <style>
     body.game-started::before {
@@ -257,8 +248,6 @@
         width: 100vw !important;
         height: 100vh !important;
       }
-
-
     }
 
     @media (max-width: 768px) and (orientation: portrait) {
@@ -290,51 +279,50 @@
   <script src="assets/js/breakpoints.min.js"></script>
   <script src="assets/js/util.js"></script>
   <script src="assets/js/main.js"></script>
-
   <script src="Build/docs.loader.js"></script>
 
   <script>
-    const desktopCloseGameBtn = document.getElementById("desktop-close-game-btn");
-    const gameStartPanel = document.getElementById("game-start-panel");
-    const btn = document.getElementById("start-game-btn");
-    const startGameBtn = document.getElementById("start-game-btn");
-    const unityContainer = document.getElementById("unity-container");
-    const loadingCover = document.getElementById("loading-cover");
-    const rotateWarning = document.getElementById("rotate-warning");
-    const gameStatus = document.getElementById("game-status");
-    const unityCanvas = document.getElementById("unity-canvas");
+    const gameElements = {
+      closeButton: document.getElementById("desktop-close-game-btn"),
+      startPanel: document.getElementById("game-start-panel"),
+      startButton: document.getElementById("start-game-btn"),
+      unityContainer: document.getElementById("unity-container"),
+      loadingCover: document.getElementById("loading-cover"),
+      rotateWarning: document.getElementById("rotate-warning"),
+      unityCanvas: document.getElementById("unity-canvas")
+    };
 
-    let hue = 0;
-    let pulsing = true;
-    let unityInstance = null;
     let gameHistoryPushed = false;
     let gameSessionStartedAt = null;
     let sessionReported = false;
+
+    function trackEvent(eventName, parameters = {}) {
+      gtag("event", eventName, parameters);
+    }
 
     function isMobileDevice() {
       return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     }
 
-    // function animateButton() {
+    function isGameStarted() {
+      return document.body.classList.contains("game-started");
+    }
 
-    //   const scale = 1 + 0.15 * Math.sin(Date.now() / 200);
-    //   btn.style.transform = `scale(${scale})`;
-
-    //   requestAnimationFrame(animateButton);
-    // }
-
-    // animateButton();
+    function focusUnityCanvas() {
+      setTimeout(() => {
+        gameElements.unityCanvas.focus();
+      }, 300);
+    }
 
     async function enterMobileLandscapeFullscreen() {
       document.body.classList.add("game-started");
-
-      unityContainer.style.display = "block";
+      gameElements.unityContainer.style.display = "block";
 
       try {
-        if (unityContainer.requestFullscreen) {
-          await unityContainer.requestFullscreen();
-        } else if (unityContainer.webkitRequestFullscreen) {
-          await unityContainer.webkitRequestFullscreen();
+        if (gameElements.unityContainer.requestFullscreen) {
+          await gameElements.unityContainer.requestFullscreen();
+        } else if (gameElements.unityContainer.webkitRequestFullscreen) {
+          await gameElements.unityContainer.webkitRequestFullscreen();
         }
       } catch (e) { }
 
@@ -347,26 +335,19 @@
 
     function showDesktopGame() {
       document.body.classList.add("game-started");
+      gameElements.unityContainer.style.display = "block";
 
-      unityContainer.style.display = "block";
-
-      unityContainer.scrollIntoView({
+      gameElements.unityContainer.scrollIntoView({
         behavior: "smooth",
         block: "center"
       });
+
       setTimeout(() => {
-        desktopCloseGameBtn.style.display = "flex";
-      }, 350);;
+        gameElements.closeButton.style.display = "flex";
+      }, 350);
     }
 
-    window.closeGame = async function () {
-      reportGameSessionDuration("close_button");
-      document.body.classList.remove("game-started");
-
-      unityContainer.style.display = "none";
-      rotateWarning.style.display = "none";
-      gameStartPanel.style.display = "flex";
-
+    async function exitFullscreenIfNeeded() {
       try {
         if (document.fullscreenElement) {
           await document.exitFullscreen();
@@ -374,40 +355,54 @@
           await document.webkitExitFullscreen();
         }
       } catch (e) { }
+    }
 
+    function unlockScreenOrientation() {
       try {
         if (screen.orientation && screen.orientation.unlock) {
           screen.orientation.unlock();
         }
       } catch (e) { }
+    }
+
+    window.closeGame = async function (reason = "close_button") {
+      reportGameSessionDuration(reason);
+      document.body.classList.remove("game-started");
+
+      gameElements.unityContainer.style.display = "none";
+      gameElements.rotateWarning.style.display = "none";
+      gameElements.startPanel.style.display = "flex";
+
+      await exitFullscreenIfNeeded();
+      unlockScreenOrientation();
 
       gameHistoryPushed = false;
       history.replaceState(null, "", location.href);
 
-      btn.scrollIntoView({
+      gameElements.startButton.scrollIntoView({
         behavior: "smooth",
         block: "center"
       });
-      desktopCloseGameBtn.style.display = "none";
-      // document.body.classList.remove("game-started");
+
+      gameElements.closeButton.style.display = "none";
     };
 
     window.addEventListener("popstate", async () => {
-      if (document.body.classList.contains("game-started")) {
-        await window.closeGame();
+      if (isGameStarted()) {
+        await window.closeGame("browser_back");
       }
     });
 
     window.addEventListener("orientationchange", () => {
       setTimeout(() => {
-        if (document.body.classList.contains("game-started") && isMobileDevice()) {
-          unityContainer.style.display = "block";
+        if (isGameStarted() && isMobileDevice()) {
+          gameElements.unityContainer.style.display = "block";
         }
       }, 300);
     });
 
-    startGameBtn.addEventListener("click", async () => {
-      gtag("event", "startGameBtn", { event_category: "engagement" });
+    gameElements.startButton.addEventListener("click", async () => {
+      trackEvent("startGameBtn", { event_category: "engagement" });
       gameSessionStartedAt = Date.now();
       sessionReported = false;
 
@@ -416,45 +411,39 @@
         gameHistoryPushed = true;
       }
 
-      pulsing = false;
-      // btn.style.display = "none";
-      gameStartPanel.style.display = "none";
-
+      gameElements.startPanel.style.display = "none";
 
       if (isMobileDevice()) {
         await enterMobileLandscapeFullscreen();
       } else {
         showDesktopGame();
       }
-      // document.body.classList.add("game-started");
-      initUnityGame();
 
-      setTimeout(() => {
-        unityCanvas.focus();
-      }, 300);
+      initUnityGame();
+      focusUnityCanvas();
     });
 
-    desktopCloseGameBtn.addEventListener("click", window.closeGame);
-
+    gameElements.closeButton.addEventListener("click", () => window.closeGame());
 
     function initUnityGame() {
+      console.log("DOMContentLoaded");
       if (window.unityInitialized) return;
 
-      gtag("event", "unityCanvasInitStarted", { event_category: "engagement" });
+      trackEvent("unityCanvasInitStarted", { event_category: "engagement" });
       window.unityInitialized = true;
 
       const isMobile = isMobileDevice();
       let pixelRatio;
 
       if (isMobile) {
-        gtag("event", "mobileDeviceDetected", { event_category: "engagement" });
+        trackEvent("mobileDeviceDetected", { event_category: "engagement" });
         pixelRatio = Math.min(window.devicePixelRatio || 2, 3);
       } else {
-        gtag("event", "desktopDeviceDetected", { event_category: "engagement" });
+        trackEvent("desktopDeviceDetected", { event_category: "engagement" });
         pixelRatio = Math.max(window.devicePixelRatio || 3, 3);
       }
 
-      createUnityInstance(document.querySelector("#unity-canvas"), {
+      createUnityInstance(gameElements.unityCanvas, {
         dataUrl: "Build/docs.data",
         frameworkUrl: "Build/docs.framework.js",
         codeUrl: "Build/docs.wasm",
@@ -466,38 +455,36 @@
         matchWebGLToCanvasSize: true,
         devicePixelRatio: pixelRatio
       }, (progress) => {
-        loadingCover.innerText = `Loading: ${Math.round(progress * 100)}%`;
-      }).then((instance) => {
-        unityInstance = instance;
-
+        gameElements.loadingCover.innerText = `Loading: ${Math.round(progress * 100)}%`;
+      }).then(() => {
         setTimeout(() => {
-          if (loadingCover) {
-            loadingCover.style.display = "none";
+          if (gameElements.loadingCover) {
+            gameElements.loadingCover.style.display = "none";
           }
         }, 1000);
 
-        gtag("event", "unityCanvasLoaded", { event_category: "engagement" });
+        trackEvent("unityCanvasLoaded", { event_category: "engagement" });
 
-        unityCanvas.addEventListener("click", () => {
-          unityCanvas.focus();
-          gtag("event", "userCanvasClick", { event_category: "engagement" });
+        gameElements.unityCanvas.addEventListener("click", () => {
+          gameElements.unityCanvas.focus();
+          trackEvent("userCanvasClick", { event_category: "engagement" });
         });
 
         document.addEventListener("keydown", e => {
           if (e.code === "KeyA" || e.code === "KeyD") {
-            gtag("event", "userKeyPress", {
+            trackEvent("userKeyPress", {
               event_category: "engagement",
               event_label: e.code
             });
           }
         });
       }).catch((message) => {
-        gtag("event", "unityCanvasLoadError", {
+        trackEvent("unityCanvasLoadError", {
           event_category: "error",
           event_label: message
         });
 
-        loadingCover.innerText = "Error downloading: " + message;
+        gameElements.loadingCover.innerText = "Error downloading: " + message;
       });
     }
 
@@ -505,7 +492,7 @@
       document.querySelectorAll("a[href]").forEach(link => {
         link.addEventListener("click", () => {
           if (!link.href.includes(location.hostname)) {
-            gtag("event", "outbound_click", {
+            trackEvent("outbound_click", {
               event_category: "outbound",
               event_label: link.href
             });
@@ -515,39 +502,39 @@
     });
 
     function onFullscreenExit() {
-      if (document.body.classList.contains("game-started") && isMobileDevice() && !document.fullscreenElement) {
-        window.closeGame();
+      const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+
+      if (isGameStarted() && isMobileDevice() && !isFullscreen) {
+        window.closeGame("fullscreen_exit");
       }
     }
 
     function reportGameSessionDuration(reason = "unknown") {
+      if (!gameSessionStartedAt || sessionReported) return;
 
-        if (!gameSessionStartedAt || sessionReported) return;
+      sessionReported = true;
 
-        sessionReported = true;
+      const duration = Math.round((Date.now() - gameSessionStartedAt) / 1000);
 
-        const duration = Math.round(
-          (Date.now() - gameSessionStartedAt) / 1000
-        );
-
-        gtag("event", "gameSessionDuration", {
-          event_category: "engagement",
-          event_label: reason,
-          value: duration
-        });
-      }
+      trackEvent("gameSessionDuration", {
+        event_category: "engagement",
+        event_label: reason,
+        value: duration
+      });
+    }
 
     document.addEventListener("fullscreenchange", onFullscreenExit);
     document.addEventListener("webkitfullscreenchange", onFullscreenExit);
+
     window.addEventListener("beforeunload", () => {
       reportGameSessionDuration("page_exit");
     });
 
     document.addEventListener("visibilitychange", () => {
-        if (document.hidden) {
-          reportGameSessionDuration("tab_hidden");
-        }
-      });
+      if (document.hidden) {
+        reportGameSessionDuration("tab_hidden");
+      }
+    });
   </script>
 </body>
 
