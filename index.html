@@ -88,7 +88,6 @@
     </ul>
 
     <ul class="copyright">
-      <li>&copy; Untitled. All rights reserved.</li>
       <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
     </ul>
   </footer>
@@ -309,6 +308,8 @@
     let pulsing = true;
     let unityInstance = null;
     let gameHistoryPushed = false;
+    let gameSessionStartedAt = null;
+    let sessionReported = false;
 
     function isMobileDevice() {
       return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -359,6 +360,7 @@
     }
 
     window.closeGame = async function () {
+      reportGameSessionDuration("close_button");
       document.body.classList.remove("game-started");
 
       unityContainer.style.display = "none";
@@ -406,6 +408,8 @@
 
     startGameBtn.addEventListener("click", async () => {
       gtag("event", "startGameBtn", { event_category: "engagement" });
+      gameSessionStartedAt = Date.now();
+      sessionReported = false;
 
       if (!gameHistoryPushed) {
         history.pushState({ gameOpen: true }, "", location.href);
@@ -516,8 +520,34 @@
       }
     }
 
+    function reportGameSessionDuration(reason = "unknown") {
+
+        if (!gameSessionStartedAt || sessionReported) return;
+
+        sessionReported = true;
+
+        const duration = Math.round(
+          (Date.now() - gameSessionStartedAt) / 1000
+        );
+
+        gtag("event", "gameSessionDuration", {
+          event_category: "engagement",
+          event_label: reason,
+          value: duration
+        });
+      }
+
     document.addEventListener("fullscreenchange", onFullscreenExit);
     document.addEventListener("webkitfullscreenchange", onFullscreenExit);
+    window.addEventListener("beforeunload", () => {
+      reportGameSessionDuration("page_exit");
+    });
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          reportGameSessionDuration("tab_hidden");
+        }
+      });
   </script>
 </body>
 

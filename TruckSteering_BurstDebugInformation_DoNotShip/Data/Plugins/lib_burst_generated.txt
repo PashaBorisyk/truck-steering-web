@@ -12,7 +12,6 @@ Library: C:\pashaborisyk\Projects\Unity\TruckSteering\Temp\BurstOutput\Data\Plug
 --float-mode=Fast
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\pashaborisyk\Projects\Unity\TruckSteering\Temp\Burst
---debug=Full
 --generate-static-linkage-methods
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.4.6f1/Editor/Data/PlaybackEngines/WebGLSupport
 --decode-folder=C:\pashaborisyk\Projects\Unity\TruckSteering\Library\Burst
@@ -32,7 +31,6 @@ Library: C:\pashaborisyk\Projects\Unity\TruckSteering\Temp\BurstOutput\Data\Plug
 --target-framework=NetFramework
 --generate-link-xml=Temp\burst.link.xml
 --temp-folder=C:\pashaborisyk\Projects\Unity\TruckSteering\Temp\Burst
---debug=Full
 --generate-static-linkage-methods
 --key-folder=C:/Program Files/Unity/Hub/Editor/6000.4.6f1/Editor/Data/PlaybackEngines/WebGLSupport
 --decode-folder=C:\pashaborisyk\Projects\Unity\TruckSteering\Library\Burst
